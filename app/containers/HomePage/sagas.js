@@ -30,7 +30,7 @@ export function* getGithubData() {
     if (watcher.stop) break;
 
     const username = yield select(selectUsername());
-    const requestURL = `https://api.github.com/users/${username}/repos?type=all&sort=updated`;
+    const requestURL = `https://lendi-api-dev.herokuapp.com/api/suggested-products`;
 
     // Use call from redux-saga for easier testing
     const repos = yield call(request, requestURL);

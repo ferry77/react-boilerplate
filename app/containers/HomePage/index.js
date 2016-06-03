@@ -34,13 +34,17 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import styles from './styles.css';
 
 export class HomePage extends React.Component {
+
+  componentWillMount() {
+    // this.props.onComponentWillMount();
+  }
   /**
    * when initial state username is not null, submit the form to load repos
    */
   componentDidMount() {
-    if (this.props.username && this.props.username.trim().length > 0) {
+    // if (this.props.username && this.props.username.trim().length > 0) {
       this.props.onSubmitForm();
-    }
+    // }
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate;
@@ -77,7 +81,8 @@ export class HomePage extends React.Component {
 
     // If we're not loading, don't have an error and there are repos, show the repos
     } else if (this.props.repos !== false) {
-      mainContent = (<List items={this.props.repos} component={RepoListItem} />);
+
+      mainContent = (<List items={this.props.repos.data} component={RepoListItem} />);
     }
 
     return (
@@ -135,7 +140,9 @@ function mapDispatchToProps(dispatch) {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(loadRepos());
     },
-
+    onComponentWillMount() {
+      dispatch(loadRepos);
+    },
     dispatch,
   };
 }
