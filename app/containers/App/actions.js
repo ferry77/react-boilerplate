@@ -16,19 +16,19 @@
  */
 
 import {
-  LOAD_REPOS,
-  LOAD_REPOS_SUCCESS,
-  LOAD_REPOS_ERROR,
+  LOAD_PRODUCTS,
+  LOAD_PRODUCTS_SUCCESS,
+  LOAD_PRODUCTS_ERROR,
 } from './constants';
 
 /**
  * Load the repositories, this action starts the getGithubData saga
  *
- * @return {object} An action object with a type of LOAD_REPOS
+ * @return {object} An action object with a type of LOAD_PRODUCTS
  */
-export function loadRepos() {
+export function loadProducts() {
   return {
-    type: LOAD_REPOS,
+    type: LOAD_PRODUCTS,
   };
 }
 
@@ -38,13 +38,12 @@ export function loadRepos() {
  * @param  {array} repos The repository data
  * @param  {string} username The current username
  *
- * @return {object}      An action object with a type of LOAD_REPOS_SUCCESS passing the repos
+ * @return {object}      An action object with a type of LOAD_PRODUCTS_SUCCESS passing the repos
  */
-export function reposLoaded(repos, username) {
+export function productsLoaded(products) {
   return {
-    type: LOAD_REPOS_SUCCESS,
-    repos,
-    username,
+    type: LOAD_PRODUCTS_SUCCESS,
+    products
   };
 }
 
@@ -53,11 +52,11 @@ export function reposLoaded(repos, username) {
  *
  * @param  {object} error The error
  *
- * @return {object}       An action object with a type of LOAD_REPOS_ERROR passing the error
+ * @return {object}       An action object with a type of LOAD_PRODUCTS_ERROR passing the error
  */
-export function repoLoadingError(error) {
+export function productLoadingError(error) {
   return {
-    type: LOAD_REPOS_ERROR,
-    error,
+    type: LOAD_PRODUCTS_ERROR,
+    error
   };
 }

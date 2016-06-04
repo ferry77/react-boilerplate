@@ -12,20 +12,19 @@ import shouldPureComponentUpdate from 'react-pure-render/function';
 import { createSelector } from 'reselect';
 
 import {
-  selectRepos,
+  selectProducts,
   selectLoading,
   selectError,
 } from 'containers/App/selectors';
 
 import {
-  selectUsername,
+  selectKeyword,
 } from './selectors';
 
-import { changeUsername } from './actions';
-import { loadRepos } from '../App/actions';
+import { changeKeyword } from './actions';
+import { loadProducts } from '../App/actions';
 
-import RepoListItem from 'containers/RepoListItem';
-import Button from 'components/Button';
+import ProductListItem from 'containers/ProductListItem';
 import H2 from 'components/H2';
 import List from 'components/List';
 import ListItem from 'components/ListItem';
@@ -35,16 +34,11 @@ import styles from './styles.css';
 
 export class HomePage extends React.Component {
 
-  componentWillMount() {
-    // this.props.onComponentWillMount();
-  }
   /**
-   * when initial state username is not null, submit the form to load repos
+   * load bank list
    */
   componentDidMount() {
-    // if (this.props.username && this.props.username.trim().length > 0) {
-      this.props.onSubmitForm();
-    // }
+      this.props.onComponentWillMount();
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate;
@@ -56,13 +50,6 @@ export class HomePage extends React.Component {
    */
   openRoute = (route) => {
     this.props.changeRoute(route);
-  };
-
-  /**
-   * Changed route to '/features'
-   */
-  openFeaturesPage = () => {
-    this.openRoute('/features');
   };
 
   render() {
@@ -79,37 +66,34 @@ export class HomePage extends React.Component {
       );
       mainContent = (<List component={ErrorComponent} />);
 
-    // If we're not loading, don't have an error and there are repos, show the repos
-    } else if (this.props.repos !== false) {
+    // If we're not loading, don't have an error and there are products, show the products
+    } else if (this.props.products !== false) {
 
-      mainContent = (<List items={this.props.repos.data} component={RepoListItem} />);
+      mainContent = (<List items={this.props.products} component={ProductListItem} />);
     }
 
     return (
       <article>
         <div>
           <section className={`${styles.textSection} ${styles.centered}`}>
-            <H2>Start your next react project in seconds</H2>
-            <p>A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices</p>
+            <H2>Click Loan Products</H2>
           </section>
           <section className={styles.textSection}>
-            <H2>Try me!</H2>
             <form className={styles.usernameForm} onSubmit={this.props.onSubmitForm}>
-              <label htmlFor="username">Show Github repositories by
-                <span className={styles.atPrefix}>@</span>
+              <label htmlFor="username">Search Product
+                <span className={styles.atPrefix}> </span>
                 <input
                   id="username"
                   className={styles.input}
                   type="text"
                   placeholder="mxstbr"
                   value={this.props.username}
-                  onChange={this.props.onChangeUsername}
+                  onChange={this.props.onChangeKeyword}
                 />
               </label>
             </form>
             {mainContent}
           </section>
-          <Button handleRoute={this.openFeaturesPage}>Features</Button>
         </div>
       </article>
     );
@@ -123,25 +107,25 @@ HomePage.propTypes = {
     React.PropTypes.object,
     React.PropTypes.bool,
   ]),
-  repos: React.PropTypes.oneOfType([
+  products: React.PropTypes.oneOfType([
     React.PropTypes.array,
     React.PropTypes.bool,
   ]),
   onSubmitForm: React.PropTypes.func,
   username: React.PropTypes.string,
-  onChangeUsername: React.PropTypes.func,
+  onChangeKeyword: React.PropTypes.func,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    onChangeUsername: (evt) => dispatch(changeUsername(evt.target.value)),
+    onChangeKeyword: (evt) => dispatch(changeKeyword(evt.target.value)),
     changeRoute: (url) => dispatch(push(url)),
     onSubmitForm: (evt) => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-      dispatch(loadRepos());
+      dispatch(loadProducts());
     },
     onComponentWillMount() {
-      dispatch(loadRepos);
+      dispatch(loadProducts());
     },
     dispatch,
   };
@@ -149,9 +133,9 @@ function mapDispatchToProps(dispatch) {
 
 // Wrap the component to inject dispatch and state into it
 export default connect(createSelector(
-  selectRepos(),
-  selectUsername(),
+  selectProducts(),
+  selectKeyword(),
   selectLoading(),
   selectError(),
-  (repos, username, loading, error) => ({ repos, username, loading, error })
+  (products, keyword, loading, error) => ({ products, keyword, loading, error })
 ), mapDispatchToProps)(HomePage);

@@ -6,7 +6,7 @@ import {
   selectCurrentUser,
   selectLoading,
   selectError,
-  selectRepos,
+  selectBanks,
   selectLocationState,
 } from '../selectors';
 

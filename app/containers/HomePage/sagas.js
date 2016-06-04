@@ -8,11 +8,10 @@ import { take, call, put, select, race } from 'redux-saga/effects';
 
 import { LOCATION_CHANGE } from 'react-router-redux';
 
-import { LOAD_REPOS } from 'containers/App/constants';
-import { reposLoaded, repoLoadingError } from 'containers/App/actions';
+import { LOAD_PRODUCTS } from 'containers/App/constants';
+import { productsLoaded, productLoadingError } from 'containers/App/actions';
 
 import request from 'utils/request';
-import { selectUsername } from 'containers/HomePage/selectors';
 
 // Bootstrap sagas
 export default [
@@ -23,24 +22,23 @@ export default [
 export function* getGithubData() {
   while (true) {
     const watcher = yield race({
-      loadRepos: take(LOAD_REPOS),
+      loadProducts: take(LOAD_PRODUCTS),
       stop: take(LOCATION_CHANGE), // stop watching if user leaves page
     });
 
     if (watcher.stop) break;
 
-    const username = yield select(selectUsername());
     const requestURL = `https://lendi-api-dev.herokuapp.com/api/suggested-products`;
 
     // Use call from redux-saga for easier testing
-    const repos = yield call(request, requestURL);
+    const products = yield call(request, requestURL);
 
-    // We return an object in a specific format, see utils/request.js for more information
-    if (repos.err === undefined || repos.err === null) {
-      yield put(reposLoaded(repos.data, username));
+    if (products.err === undefined || products.err === null) {
+      // We return an object in a specific format, see utils/request.js for more information
+      yield put(productsLoaded(products.data.data));
     } else {
-      console.log(repos.err.response); // eslint-disable-line no-console
-      yield put(repoLoadingError(repos.err));
+      console.log(products.err.response); // eslint-disable-line no-console
+      yield put(productLoadingError(products.err));
     }
   }
 }
