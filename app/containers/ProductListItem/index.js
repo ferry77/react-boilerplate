@@ -13,7 +13,7 @@ import styles from './styles.css';
 export default class ProductListItem extends React.Component {
 
   static propTypes = {
-    item: React.PropTypes.object
+    item: React.PropTypes.object,
   };
 
   render() {

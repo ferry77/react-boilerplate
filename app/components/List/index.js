@@ -8,22 +8,9 @@ function List(props) {
 
   // If we have items, render them
   if (props.items) {
-    content = props.items.sort(
-        (a, b) => {
-          let nameA = a.product_name.toUpperCase(); // ignore upper and lowercase
-          let nameB = b.product_name.toUpperCase(); // ignore upper and lowercase
-          if (nameA < nameB) {
-            return -1;
-          }
-          if (nameA > nameB) {
-            return 1;
-          }
-
-          // names must be equal
-          return 0;
-        }
-    ).map((item, index) => (
+    content = props.items.map((item, index) => (
       <ComponentToRender key={`item-${index}`} item={item} />
+
     ));
   } else {
     // Otherwise render a single component

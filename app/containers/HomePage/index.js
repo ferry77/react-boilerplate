@@ -38,19 +38,12 @@ export class HomePage extends React.Component {
    * load bank list
    */
   componentDidMount() {
+    if (typeof this.props.onComponentWillMount === 'function') {
       this.props.onComponentWillMount();
+    }
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate;
-
-  /**
-   * Changes the route
-   *
-   * @param  {string} route The route we want to go to
-   */
-  openRoute = (route) => {
-    this.props.changeRoute(route);
-  };
 
   render() {
     let mainContent = null;
@@ -59,35 +52,34 @@ export class HomePage extends React.Component {
     if (this.props.loading) {
       mainContent = (<List component={LoadingIndicator} />);
 
-    // Show an error if there is one
+      // Show an error if there is one
     } else if (this.props.error !== false) {
       const ErrorComponent = () => (
         <ListItem item={'Something went wrong, please try again!'} />
       );
       mainContent = (<List component={ErrorComponent} />);
 
-    // If we're not loading, don't have an error and there are products, show the products
+      // If we're not loading, don't have an error and there are products, show the products
     } else if (this.props.products !== false) {
-
-      mainContent = (<List items={this.props.products} component={ProductListItem} />);
+      mainContent = (<List items={this.props.products.filter(item => item.product_name.toLowerCase().indexOf(this.props.keyword) !== -1)} component={ProductListItem} />);
     }
 
     return (
       <article>
         <div>
           <section className={`${styles.textSection} ${styles.centered}`}>
-            <H2>Click Loan Products</H2>
+            <H2>Loan Products</H2>
           </section>
           <section className={styles.textSection}>
-            <form className={styles.usernameForm} onSubmit={this.props.onSubmitForm}>
-              <label htmlFor="username">Search Product
+            <form className={styles.keywordForm}>
+              <label htmlFor="keyword">Search Product
                 <span className={styles.atPrefix}> </span>
                 <input
-                  id="username"
+                  id="keyword"
                   className={styles.input}
                   type="text"
-                  placeholder="mxstbr"
-                  value={this.props.username}
+                  placeholder="search"
+                  value={this.props.keyword}
                   onChange={this.props.onChangeKeyword}
                 />
               </label>
@@ -111,8 +103,8 @@ HomePage.propTypes = {
     React.PropTypes.array,
     React.PropTypes.bool,
   ]),
-  onSubmitForm: React.PropTypes.func,
-  username: React.PropTypes.string,
+  onComponentWillMount: React.PropTypes.func,
+  keyword: React.PropTypes.string,
   onChangeKeyword: React.PropTypes.func,
 };
 
@@ -120,13 +112,8 @@ function mapDispatchToProps(dispatch) {
   return {
     onChangeKeyword: (evt) => dispatch(changeKeyword(evt.target.value)),
     changeRoute: (url) => dispatch(push(url)),
-    onSubmitForm: (evt) => {
-      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-      dispatch(loadProducts());
-    },
-    onComponentWillMount() {
-      dispatch(loadProducts());
-    },
+    onComponentWillMount: () => dispatch(loadProducts()),
+
     dispatch,
   };
 }

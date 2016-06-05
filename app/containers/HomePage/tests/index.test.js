@@ -7,7 +7,7 @@ import { shallow, mount } from 'enzyme';
 import React from 'react';
 
 import { HomePage } from '../index';
-import RepoListItem from 'containers/RepoListItem';
+import ProductListItem from 'containers/ProductListItem';
 import List from 'components/List';
 import LoadingIndicator from 'components/LoadingIndicator';
 
@@ -33,41 +33,18 @@ describe('<HomePage />', () => {
       ).toBeGreaterThan(-1);
   });
 
-  it('should render the repositories if loading was successful', () => {
-    const repos = [{
-      owner: {
-        login: 'mxstbr',
-      },
-      html_url: 'https://github.com/mxstbr/react-boilerplate',
-      name: 'react-boilerplate',
-      open_issues_count: 20,
-      full_name: 'mxstbr/react-boilerplate',
+  it('should render the products if loading was successful', () => {
+    const products = [{
+      product_name: 'Awesome loan no repayment',
     }];
     const renderedComponent = shallow(
       <HomePage
-        repos={repos}
+        products={products}
+        keyword=""
         error={false}
       />
     );
 
-    expect(renderedComponent.contains(<List items={repos} component={RepoListItem} />)).toEqual(true);
-  });
-
-  it('should link to /features', () => {
-    const openRouteSpy = expect.createSpy();
-
-    // Spy on the openRoute method of the HomePage
-    const openRoute = (dest) => {
-      if (dest === '/features') {
-        openRouteSpy();
-      }
-    };
-
-    const renderedComponent = mount(
-      <HomePage loading changeRoute={openRoute} />
-    );
-    const button = renderedComponent.find('button');
-    button.simulate('click');
-    expect(openRouteSpy).toHaveBeenCalled();
+    expect(renderedComponent.contains(<List items={products} component={ProductListItem} />)).toEqual(true);
   });
 });

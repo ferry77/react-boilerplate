@@ -1,23 +1,23 @@
 import expect from 'expect';
 
 import {
-  CHANGE_USERNAME,
+  CHANGE_KEYWORD,
 } from '../constants';
 
 import {
-  changeUsername,
+  changeKeyword,
 } from '../actions';
 
 describe('Home Actions', () => {
-  describe('changeUsername', () => {
-    it('should return the correct type and the passed name', () => {
+  describe('changeKeyword', () => {
+    it('should return the correct type and the passed keyword', () => {
       const fixture = 'Max';
       const expectedResult = {
-        type: CHANGE_USERNAME,
-        name: fixture,
+        type: CHANGE_KEYWORD,
+        keyword: fixture,
       };
 
-      expect(changeUsername(fixture)).toEqual(expectedResult);
+      expect(changeKeyword(fixture)).toEqual(expectedResult);
     });
   });
 });

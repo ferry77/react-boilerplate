@@ -85,7 +85,7 @@
     "rules": {
       "import/no-unresolved": 2,
       "comma-dangle": [2, "always-multiline"],
-      "indent": [2, 2, { "SwitchCase": 1 }],
+      "indent": [1, 2, { "SwitchCase": 1 }],
       "no-console": 1,
       "max-len": 0,
       "prefer-template": 2,

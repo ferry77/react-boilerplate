@@ -1,10 +1,10 @@
 /**
- * Gets the repositories of the user from Github
+ * Gets the repositories of the user from Product
  */
 
 /* eslint-disable no-constant-condition */
 
-import { take, call, put, select, race } from 'redux-saga/effects';
+import { take, call, put, race } from 'redux-saga/effects';
 
 import { LOCATION_CHANGE } from 'react-router-redux';
 
@@ -15,11 +15,11 @@ import request from 'utils/request';
 
 // Bootstrap sagas
 export default [
-  getGithubData,
+  getProductData,
 ];
 
 // Individual exports for testing
-export function* getGithubData() {
+export function* getProductData() {
   while (true) {
     const watcher = yield race({
       loadProducts: take(LOAD_PRODUCTS),
@@ -28,7 +28,7 @@ export function* getGithubData() {
 
     if (watcher.stop) break;
 
-    const requestURL = `https://lendi-api-dev.herokuapp.com/api/suggested-products`;
+    const requestURL = 'https://lendi-api-dev.herokuapp.com/api/suggested-products';
 
     // Use call from redux-saga for easier testing
     const products = yield call(request, requestURL);

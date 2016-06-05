@@ -36,7 +36,7 @@ function appReducer(state = initialState, action) {
     case LOAD_PRODUCTS_SUCCESS:
       return state
         .setIn(['userData', 'products'], action.products)
-        .set('loading', false)
+        .set('loading', false);
     case LOAD_PRODUCTS_ERROR:
       return state
         .set('error', action.error)

@@ -1,9 +1,9 @@
 import expect from 'expect';
 import appReducer from '../reducer';
 import {
-  loadRepos,
-  reposLoaded,
-  repoLoadingError,
+  loadProducts,
+  productsLoaded,
+  productLoadingError,
 } from '../actions';
 import { fromJS } from 'immutable';
 
@@ -13,9 +13,8 @@ describe('appReducer', () => {
     state = fromJS({
       loading: false,
       error: false,
-      currentUser: false,
       userData: fromJS({
-        repositories: false,
+        products: false,
       }),
     });
   });
@@ -25,29 +24,27 @@ describe('appReducer', () => {
     expect(appReducer(undefined, {})).toEqual(expectedResult);
   });
 
-  it('should handle the loadRepos action correctly', () => {
+  it('should handle the loadProducts action correctly', () => {
     const expectedResult = state
       .set('loading', true)
       .set('error', false)
-      .setIn(['userData', 'repositories'], false);
+      .setIn(['userData', 'products'], false);
 
-    expect(appReducer(state, loadRepos())).toEqual(expectedResult);
+    expect(appReducer(state, loadProducts())).toEqual(expectedResult);
   });
 
-  it('should handle the reposLoaded action correctly', () => {
+  it('should handle the productsLoaded action correctly', () => {
     const fixture = [{
-      name: 'My Repo',
+      name: 'My Product',
     }];
-    const username = 'test';
     const expectedResult = state
-      .setIn(['userData', 'repositories'], fixture)
-      .set('loading', false)
-      .set('currentUser', username);
+      .setIn(['userData', 'products'], fixture)
+      .set('loading', false);
 
-    expect(appReducer(state, reposLoaded(fixture, username))).toEqual(expectedResult);
+    expect(appReducer(state, productsLoaded(fixture))).toEqual(expectedResult);
   });
 
-  it('should handle the repoLoadingError action correctly', () => {
+  it('should handle the productLoadingError action correctly', () => {
     const fixture = {
       msg: 'Not found',
     };
@@ -55,6 +52,6 @@ describe('appReducer', () => {
       .set('error', fixture)
       .set('loading', false);
 
-    expect(appReducer(state, repoLoadingError(fixture))).toEqual(expectedResult);
+    expect(appReducer(state, productLoadingError(fixture))).toEqual(expectedResult);
   });
 });

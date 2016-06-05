@@ -43,7 +43,7 @@ export function loadProducts() {
 export function productsLoaded(products) {
   return {
     type: LOAD_PRODUCTS_SUCCESS,
-    products
+    products,
   };
 }
 
@@ -57,6 +57,6 @@ export function productsLoaded(products) {
 export function productLoadingError(error) {
   return {
     type: LOAD_PRODUCTS_ERROR,
-    error
+    error,
   };
 }

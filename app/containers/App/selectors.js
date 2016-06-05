@@ -5,11 +5,6 @@
 import { createSelector } from 'reselect';
 
 const selectGlobal = () => (state) => state.get('global');
-//
-// const selectCurrentUser = () => createSelector(
-//   selectGlobal(),
-//   (globalState) => globalState.get('currentUser')
-// );
 
 const selectLoading = () => createSelector(
   selectGlobal(),

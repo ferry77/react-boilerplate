@@ -3,7 +3,7 @@ import expect from 'expect';
 
 import {
   selectHome,
-  selectUsername,
+  selectKeyword,
 } from '../selectors';
 
 describe('selectHome', () => {
@@ -19,15 +19,15 @@ describe('selectHome', () => {
   });
 });
 
-describe('selectUsername', () => {
-  const usernameSelector = selectUsername();
-  it('should select the username', () => {
-    const username = 'mxstbr';
+describe('selectKeyword', () => {
+  const keywordSelector = selectKeyword();
+  it('should select the keyword', () => {
+    const keyword = 'mxstbr';
     const mockedState = fromJS({
       home: {
-        username,
+        keyword,
       },
     });
-    expect(usernameSelector(mockedState)).toEqual(username);
+    expect(keywordSelector(mockedState)).toEqual(keyword);
   });
 });
